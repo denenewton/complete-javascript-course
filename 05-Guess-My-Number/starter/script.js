@@ -3,7 +3,6 @@
 let secretNumber = Math.floor(Math.random() * 20 + 1);
 let $ = document.querySelector.bind(this.document);
 let highscore = 0;
-console.log(secretNumber);
 
 $('.check').addEventListener('click', tentativa);
 
@@ -27,7 +26,7 @@ function tentativa() {
     $('.message').textContent = '🚫 No number';
   } else if (gess === secretNumber) {
     $('.number').textContent = `${secretNumber}`;
-    if(highscore < score){
+    if (highscore < score) {
       highscore = score;
       $('.highscore').textContent = `${highscore}`;
     }
