@@ -23,6 +23,7 @@
 html {
   font-size: 62.5%;
   box-sizing: border-box;
+  /* scroll-behavior: smooth; */
 }
 
 body {
@@ -30,7 +31,7 @@ body {
   font-weight: 300;
   color: #444;
   line-height: 1.9;
-  background-color: #f3f3f3;
+  background-color: #f3f3f3; 
 }
 
 /* GENERAL ELEMENTS */
@@ -97,7 +98,7 @@ body {
 }
 
 p {
-  color: #666;
+  color: #665;
 }
 
 /* This is BAD for accessibility! Don't do in the real world! */
