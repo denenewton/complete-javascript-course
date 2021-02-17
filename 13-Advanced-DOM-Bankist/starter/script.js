@@ -142,37 +142,87 @@ nav.addEventListener('mouseout', handleHouver.bind(1));
 
 ////////////////////////////////////
 //Slides
-const slides = document.querySelectorAll('.slide');
-const slider = document.querySelector('.slider');
-const btnLeft = document.querySelector('.slider__btn--left');
-const btnRight = document.querySelector('.slider__btn--right');
-let CurrentSlide = 0;
-const maxSlide = slides.length;
-slider.style.transform = `scale(1)`;
-/////////MINHA SOLUÇÃO///////////////////////////////////////////////////
-slides.forEach(
-  (slide, i) => (slide.style.transform = `translateX(${i * 100}%)`)
-);
-
-btnLeft.addEventListener('click', function() {
-  CurrentSlide++;
-
-  if (CurrentSlide > maxSlide - 1) CurrentSlide = 0;
-  console.log(CurrentSlide);
-
+(function slider() {
+  const slides = document.querySelectorAll('.slide');
+  const slider = document.querySelector('.slider');
+  const btnLeft = document.querySelector('.slider__btn--left');
+  const btnRight = document.querySelector('.slider__btn--right');
+  const dotContainer = document.querySelector('.dots');
+  let CurrentSlide = 0;
+  const maxSlide = slides.length;
+  /////////MINHA SOLUÇÃO///////////////////////////////////////////////////
   slides.forEach(
-    (slide, i) =>
-      (slide.style.transform = `translateX(${(i - CurrentSlide) * 100}%)`)
+    (slide, i) => (slide.style.transform = `translateX(${i * 100}%)`)
   );
-});
-btnRight.addEventListener('click', function() {
-  CurrentSlide--;
-  
-  if (CurrentSlide < 0) CurrentSlide = maxSlide - 1;
-  console.log(CurrentSlide);
-  slides.forEach(
-    (slide, i) =>
-      (slide.style.transform = `translateX(${(i - CurrentSlide) * 100}%)`)
-  );
-});
-/////////////////////////////////////////////////////////////////////////////////////
+
+  btnLeft.addEventListener('click', function() {
+    CurrentSlide++;
+
+    if (CurrentSlide > maxSlide - 1) CurrentSlide = 0;
+    console.log(CurrentSlide);
+
+    slides.forEach(
+      (slide, i) =>
+        (slide.style.transform = `translateX(${(i - CurrentSlide) * 100}%)`)
+    );
+    dotActived(CurrentSlide);
+  });
+  btnRight.addEventListener('click', function() {
+    CurrentSlide--;
+
+    if (CurrentSlide < 0) CurrentSlide = maxSlide - 1;
+    console.log(CurrentSlide);
+    slides.forEach(
+      (slide, i) =>
+        (slide.style.transform = `translateX(${(i - CurrentSlide) * 100}%)`)
+    );
+    dotActived(CurrentSlide);
+  });
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key == 'ArrowRight') {
+      btnRight.click();
+    }
+    if (e.key == 'ArrowLeft') {
+      btnLeft.click();
+    }
+  });
+  const createDots = () => {
+    slides.forEach((_, i) => {
+      dotContainer.insertAdjacentHTML(
+        'beforeend',
+        `<button class="dots__dot" data-slide="${i}"></button>`
+      );
+    });
+  };
+
+  const dotActived = CurrentSlide => {
+    document.querySelectorAll('.dots__dot').forEach(dot => {
+      dot.classList.remove('dots__dot--active');
+    });
+    document
+      .querySelector(`.dots__dot[data-slide='${CurrentSlide}']`)
+      .classList.add('dots__dot--active');
+  };
+
+  dotContainer.addEventListener('click', function(e) {
+    if (e.target.classList.contains('dots__dot')) {
+      console.log('dot');
+
+      const current_slide = e.target.dataset.slide;
+      dotActived(current_slide);
+      slides.forEach((slide, i) => {
+        slide.style.transform = `translateX(${(i - current_slide) * 100}%)`;
+      });
+    }
+  });
+
+  ///////////////
+  // INICIALIZA AS FUNÇOES
+  (function init() {
+    createDots();
+    dotActived(0);
+  })();
+  ///////////
+})();
+//////////////////////////////////////////////////////////////////////////////////// "ArrowRight"
